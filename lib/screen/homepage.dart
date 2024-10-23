@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:simple_dio/Service/User_dio/userdata.dart';
+import 'package:simple_dio/logic/model/user_model.dart';
+
+import '../shared/api/fetch_user_dio/userdata.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -10,7 +12,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   UserService userService = UserService();
-  List<Map<String, dynamic>> usersData = []; // This will hold a list of users
+  List<UserModel> usersData = []; // This will hold a list of users
 
   Future<void> fetchUsers() async {
     var users =
@@ -38,9 +40,9 @@ class _HomePageState extends State<HomePage> {
       body: ListView.separated(
         itemCount: 5,
         itemBuilder: (context, index) => userItem(
-          name: usersData[index]['name'],
-          email: usersData[index]['email'],
-          image: usersData[index]['imageUrl'],
+          name: usersData[index].name,
+          email: usersData[index].email,
+          image: usersData[index].imageUrl,
         ),
         separatorBuilder: (BuildContext context, int index) => const SizedBox(
           height: 10,

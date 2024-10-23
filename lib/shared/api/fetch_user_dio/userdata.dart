@@ -1,9 +1,10 @@
 import 'package:dio/dio.dart';
+import 'package:simple_dio/logic/model/user_model.dart';
 
 class UserService {
   final Dio _dio = Dio();
 
-  Future<List<Map<String, dynamic>>> fetchRandomUsers(int userCount) async {
+  Future<List<UserModel>> fetchRandomUsers(int userCount) async {
     try {
       Response response = await _dio.get(
         'https://randomuser.me/api/',
@@ -14,15 +15,16 @@ class UserService {
       List results = response.data['results'];
 
       // Create an empty list to store user data
-      List<Map<String, dynamic>> users = [];
+      List<UserModel> users = [];
 
       // Loop through each user in the results and extract the relevant data
       for (var user in results) {
-        users.add({
-          'name': '${user['name']['first']} ${user['name']['last']}',
-          'email': user['email'],
-          'imageUrl': user['picture']['thumbnail'],
-        });
+        // Add the new UserModel to the list
+        users.add(UserModel.initialize(
+          name: '${user['name']['first']} ${user['name']['last']}',
+          email: user['email'],
+          imageUrl: user['picture']['thumbnail'],
+        ));
       }
 
       return users; // Return the list of user data
