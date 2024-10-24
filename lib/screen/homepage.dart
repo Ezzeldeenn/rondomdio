@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
       ),
       body: ListView.separated(
-        itemCount: 5,
+        itemCount: usersData.length,
         itemBuilder: (context, index) => userItem(
           name: usersData[index].name,
           email: usersData[index].email,
