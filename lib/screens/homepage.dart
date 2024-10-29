@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../Widgets/user_item.dart';
 import '../providers/user_provider.dart';
 
 class HomePage extends StatelessWidget {
@@ -16,16 +17,21 @@ class HomePage extends StatelessWidget {
       ),
       body: Consumer<UserProvider>(
         builder: (context, userProvider, child) {
-          // Trigger data fetch if list is empty and not loading
-          if (userProvider.userData?.result == null) {
+          bool isLoading = userProvider.isLoading;
+          final result = userProvider.userData?.result;
+
+          if (result?.isEmpty ?? true && isLoading == true) {
             providerObject.fetchUsers();
+            return const Center(child: CircularProgressIndicator());
+          } else if (userProvider.isLoading) {
             return const Center(child: CircularProgressIndicator());
           } else {
             return ListView.separated(
-              itemCount: userProvider.userData?.result.length ?? 0,
+              itemCount: result?.length ?? 0,
               itemBuilder: (context, index) {
-                final user = userProvider.userData!.result[index];
-                return userItem(
+                final user = result?[index];
+
+                return UserItem(
                   name: user["name"],
                   email: user["email"],
                   image: user["image"],
@@ -41,35 +47,6 @@ class HomePage extends StatelessWidget {
           providerObject.fetchUsers();
         },
         child: const Icon(Icons.refresh),
-      ),
-    );
-  }
-
-  Widget userItem({
-    required String name,
-    required String email,
-    required String image,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        children: [
-          CircleAvatar(
-            radius: 30,
-            backgroundImage: NetworkImage(image),
-          ),
-          const SizedBox(width: 20),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                name,
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text(email),
-            ],
-          ),
-        ],
       ),
     );
   }
