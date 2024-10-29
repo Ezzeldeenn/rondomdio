@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       ),
       home: ChangeNotifierProvider(
         create: (context) => UserProvider(),
-        child: HomePage(),
+        child: const HomePage(),
       ),
     );
   }
