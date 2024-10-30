@@ -5,11 +5,11 @@ class UserModel {
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     List<dynamic> fullData = [];
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < 7; i++) {
       fullData.add(json["results"][i]);
     }
     fullData = fullData.map(
-      (user) {
+          (user) {
         return {
           "name": user["name"]["first"] + user["name"]["last"],
           "email": user["email"],

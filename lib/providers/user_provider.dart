@@ -19,4 +19,5 @@ class UserProvider extends ChangeNotifier {
     isLoading = false;
     notifyListeners();
   }
+  // print(userData.result)
 }

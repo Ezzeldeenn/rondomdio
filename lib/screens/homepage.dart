@@ -20,14 +20,17 @@ class HomePage extends StatelessWidget {
           bool isLoading = userProvider.isLoading;
           final result = userProvider.userData?.result;
 
-          if (result?.isEmpty ?? true && isLoading == true) {
+          if (result==null && isLoading == true) {
             providerObject.fetchUsers();
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());//loading circle
           } else if (userProvider.isLoading) {
             return const Center(child: CircularProgressIndicator());
           } else {
             return ListView.separated(
               itemCount: result?.length ?? 0,
+
+              //result?.length ?? 0  then if res null item count = 0
+
               itemBuilder: (context, index) {
                 final user = result?[index];
 
@@ -51,3 +54,9 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+
+
+/*
+
+widget model service provider screens
+ */
